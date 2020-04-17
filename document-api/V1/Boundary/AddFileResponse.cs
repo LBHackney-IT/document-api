@@ -3,8 +3,6 @@ namespace documentapi.V1.Boundary
 {
     public class AddFileResponse
     {
-        public AddFileResponse()
-        {
-        }
+        string StatusCode { get; set; }
     }
 }
