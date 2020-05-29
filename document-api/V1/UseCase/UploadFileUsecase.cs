@@ -1,5 +1,7 @@
 using System;
-namespace documentapi.V1.UseCase
+using Microsoft.AspNetCore.Http;
+
+namespace document_api.UseCase.V1
 {
     public class UploadFileUsecase : IUploadFileUsecase
     {
@@ -13,7 +15,7 @@ namespace documentapi.V1.UseCase
 
         public void Execute(string bucketName, IFormFile formFile)
         {
-            _fileGateway.UploadFiles(string bucketName, IFormFile formFile);
+            _fileGateway.UploadFiles(bucketName, formFile);
         }
     }
 }

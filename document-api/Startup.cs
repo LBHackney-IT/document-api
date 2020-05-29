@@ -12,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using document_api.UseCase.V1;
 using document_api.V1.Boundary;
 using document_api.V1.Gateways;
-using document_api.V1.Infrastructure;
 using document_api.Versioning;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -94,29 +93,24 @@ namespace document_api
                 if (File.Exists(xmlPath))
                     c.IncludeXmlComments(xmlPath);
             });
-            ConfigureDbContext(services);
+           // ConfigureDbContext(services);
             RegisterGateWays(services);
             RegisterUseCases(services);
         }
 
         private static void ConfigureDbContext(IServiceCollection services)
         {
-            var connectionString = Environment.GetEnvironmentVariable("UH_URL");
-
-            DbContextOptionsBuilder builder = new DbContextOptionsBuilder()
-                .UseSqlServer(connectionString);
-
-            services.AddSingleton<IUHContext>(s => new UhContext(builder.Options));
+          
         }
 
         private static void RegisterGateWays(IServiceCollection services)
         {
-            services.AddSingleton<ITransactionsGateway, TransactionsGateway>();
+           // services.AddSingleton<ITransactionsGateway, TransactionsGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
         {
-            services.AddSingleton<IListTransactions, ListTransactionsUsecase>();
+            // services.AddSingleton<IListTransactions, ListTransactionsUsecase>();
         }
 
 

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Bogus;
 using Microsoft.Extensions.HealthChecks;
 using NUnit.Framework;
-using base_api.UseCase.V1;
+using document_api.UseCase.V1;
 using Moq;
 
 namespace UnitTests.V1.UseCase

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
-using base_api.Controllers.V1;
-using base_api.UseCase.V1;
+using document_api.Controllers.V1;
+using document_api.UseCase.V1;
 
 namespace UnitTests.V1.Controllers
 {

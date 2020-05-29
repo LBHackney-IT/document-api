@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using base_api.UseCase.V1;
+using document_api.UseCase.V1;
 
 namespace UnitTests.V1.UseCase
 {

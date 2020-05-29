@@ -1,5 +1,11 @@
 using System;
-namespace documentapi.V1.Gateways
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Amazon.S3;
+using document_api.V1.Boundary;
+using Microsoft.AspNetCore.Http;
+
+namespace document_api.V1.Gateways
 {
     public class S3FileGateway : IS3FileGateway
     {
@@ -14,7 +20,7 @@ namespace documentapi.V1.Gateways
         public async Task<AddFileResponse> UploadFiles(string bucketName, IList<IFormFile> formFiles)
         {
 
-            return new AddFileResponse;
+            return new AddFileResponse();
 
         }
     }

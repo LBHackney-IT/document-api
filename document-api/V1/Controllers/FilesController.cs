@@ -6,7 +6,7 @@ using document_api.V1.Boundary;
 using document_api.Controllers.V1;
 using Microsoft.AspNetCore.Http;
 
-namespace documentapi.V1.Controllers
+namespace document_api.V1.Controllers
 {
     [Route("api/v1/files")]
     [ApiController]
