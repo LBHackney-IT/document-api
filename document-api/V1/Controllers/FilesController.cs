@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 using document_api.V1.Boundary;
 using document_api.Controllers.V1;
 using Microsoft.AspNetCore.Http;
+using document_api.V1.UseCase;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace document_api.V1.Controllers
 {
@@ -24,14 +27,14 @@ namespace document_api.V1.Controllers
 
         [HttpPost]
         [Route("{bucketName}/add")]
-        public async Task<ActionResult<AddFileResponse>> AddFiles(string bucketName, IFormFile formFile)
+        public async Task<ActionResult<AddFileResponse>> AddFiles(string bucketName, IList<IFormFile> formFiles)
         {
-            if (formFile == null)
+            if (formFiles == null)
             {
                 return BadRequest("The request doesn't contain any files to be uploaded.");
             }
 
-            var response = await _uploadFile.Execute(bucketName, formFile);
+            var response =  await _uploadFile.Execute(bucketName, formFiles);
 
             if (response == null)
             {
