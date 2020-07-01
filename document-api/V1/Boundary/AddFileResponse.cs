@@ -5,10 +5,7 @@ namespace document_api.V1.Boundary
 {
     public class AddFileResponse
     {
-        public readonly IList<string> StatusCode;
+        public IList<string> PreSignedUrl { get; set; }
 
-        public AddFileResponse(IList<string> statuscode) {
-            StatusCode = statuscode;
-        }
     }
 }
