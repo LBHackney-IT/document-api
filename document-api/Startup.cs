@@ -20,6 +20,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Amazon.S3;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Hosting;
+using document_api.V1.UseCase;
 
 namespace document_api
 {
@@ -120,12 +121,12 @@ namespace document_api
 
         private static void RegisterGateWays(IServiceCollection services)
         {
-           // services.AddSingleton<ITransactionsGateway, TransactionsGateway>();
+            services.AddSingleton<IS3FileGateway, S3FileGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
         {
-            // services.AddSingleton<IListTransactions, ListTransactionsUsecase>();
+             services.AddSingleton<IUploadFile, UploadFileUsecase>();
         }
 
 
