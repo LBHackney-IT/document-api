@@ -41,7 +41,7 @@ namespace document_api.V1.Controllers
                 return BadRequest();
             }
 
-            return Ok(response);
+            return CreatedAtAction("AddFiles", response);
         }
     }
 }
