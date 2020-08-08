@@ -38,7 +38,7 @@ namespace document_api.V1.Controllers
 
             if (response == null)
             {
-                return BadRequest();
+                return BadRequest("Something went wrong with your request");
             }
 
             return CreatedAtAction("AddFiles", response);
