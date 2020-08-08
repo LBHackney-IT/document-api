@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
+
 namespace document_api.V1.Boundary
 {
     public class AddFileResponse
     {
-        string StatusCode { get; set; }
+        public IList<string> PreSignedUrl { get; set; }
+
     }
 }

@@ -1,21 +1,24 @@
-using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using document_api.V1.Boundary;
+using document_api.V1.Gateways;
 using Microsoft.AspNetCore.Http;
 
-namespace document_api.UseCase.V1
+namespace document_api.V1.UseCase
 {
-    public class UploadFileUsecase : IUploadFileUsecase
+    public class UploadFileUsecase : IUploadFile
     {
-        private IFileGateway _fileGateway;
+        private IS3FileGateway _fileGateway;
 
-        public UploadFileUsecase(IFileGateway fileGateway)
+        public UploadFileUsecase(IS3FileGateway fileGateway)
         {
             _fileGateway = fileGateway;
         }
 
 
-        public void Execute(string bucketName, IFormFile formFile)
+        public Task<AddFileResponse> Execute(string bucketName, IList<IFormFile> formFiles)
         {
-            _fileGateway.UploadFiles(bucketName, formFile);
+           return _fileGateway.UploadFiles(bucketName, formFiles);
         }
     }
 }
