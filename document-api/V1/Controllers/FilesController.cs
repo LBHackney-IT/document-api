@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using document_api.V1.UseCase;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Amazon.Runtime.Internal;
+using document_api.V1.Exceptions;
 
 namespace document_api.V1.Controllers
 {
@@ -16,11 +18,13 @@ namespace document_api.V1.Controllers
     public class FilesController : BaseController
     {
         private readonly IUploadFile _uploadFile;
+        private readonly IGetFileUsecase _getFile;
         private readonly ILogger<FilesController> _logger;
 
-        public FilesController(IUploadFile uploadFile, ILogger<FilesController> logger)
+        public FilesController(IUploadFile uploadFile, IGetFileUsecase getFile, ILogger<FilesController> logger)
         {
             _uploadFile = uploadFile;
+            _getFile = getFile;
             _logger = logger;
         }
 
@@ -42,6 +46,33 @@ namespace document_api.V1.Controllers
             }
 
             return CreatedAtAction("AddFiles", response);
+        }
+
+        [HttpGet]
+        [Route("{bucketName}/download/{fileName}")]
+        public async Task<ActionResult<GetFileResponse>> GetFile([FromRoute] GetFileRequest request)
+        {
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest();
+                }
+
+               var response = await _getFile.Execute(request);
+
+                return Ok(response);
+            }
+            catch(AmazonS3Exception ex)
+            {
+                if(ex.ErrorCode == "NoSuchKey" || ex.ErrorCode == "NoSuchBucket")
+                {
+                    return NotFound(new ErrorsResponse(ex.Message));
+                }
+
+                return StatusCode(500, new ErrorsResponse(ex.Message));    
+            }
+           
         }
     }
 }

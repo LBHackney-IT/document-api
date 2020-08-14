@@ -24,6 +24,8 @@ namespace UnitTests.V1.Gateways
             classUnderTest = new S3FileGateway(mockS3Client.Object);
         }
 
+        #region Upload File
+
         [Test]
         public async Task Given_a_successful_request_when_UploadFiles_is_called_it_returns_a_successful_response_object()
         {
@@ -45,6 +47,27 @@ namespace UnitTests.V1.Gateways
             //assert
             Assert.AreSame(response, expectedResponse);
         }
+        #endregion
+
+        #region Download File
+        [Test]
+        public async Task Given_a_successful_request_when_DownloadFile_is_called_it_returns_a_successful_response_object()
+        {
+            //arrange
+            var request = new GetFileRequest
+            {
+                bucketName = "testbucket",
+                fileName = "Test.pdf"
+            };
+            var expectedResponse = new GetFileResponse();
+            mockS3Client.Setup(x => x.DownloadFile(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(expectedResponse);
+
+            //act
+            var response = await classUnderTest.DownloadFile(request);
+            //assert
+            Assert.AreSame(response, expectedResponse);
+        }
+        #endregion
 
     }
 

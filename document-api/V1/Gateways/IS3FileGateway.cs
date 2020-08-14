@@ -8,5 +8,7 @@ namespace document_api.V1.Gateways
     public interface IS3FileGateway
     {
         Task<AddFileResponse> UploadFiles(string bucketName, IList<IFormFile> formFiles);
+
+        Task<GetFileResponse> DownloadFile(GetFileRequest request);
     }
 }

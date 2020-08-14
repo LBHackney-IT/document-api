@@ -25,5 +25,10 @@ namespace document_api.V1.Gateways
              return await  _s3Client.UploadFiles(bucketName, formFiles);
 
         }
+
+        public async Task<GetFileResponse> DownloadFile(GetFileRequest request)
+        {
+            return await _s3Client.DownloadFile(request.bucketName, request.fileName);
+        }
     }
 }
