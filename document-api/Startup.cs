@@ -21,6 +21,7 @@ using Amazon.S3;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Hosting;
 using document_api.V1.UseCase;
+using document_api.V1.Infrastructure;
 
 namespace document_api
 {
@@ -112,11 +113,12 @@ namespace document_api
            // ConfigureDbContext(services);
             RegisterGateWays(services);
             RegisterUseCases(services);
+            RegisterS3Client(services);
         }
 
-        private static void ConfigureDbContext(IServiceCollection services)
+        private static void RegisterS3Client(IServiceCollection services)
         {
-          
+            services.AddSingleton<IS3Client, S3Client>();
         }
 
         private static void RegisterGateWays(IServiceCollection services)
@@ -127,6 +129,7 @@ namespace document_api
         private static void RegisterUseCases(IServiceCollection services)
         {
              services.AddSingleton<IUploadFile, UploadFileUsecase>();
+             services.AddSingleton<IGetFileUsecase, GetFileUsecase>();
         }
 
 

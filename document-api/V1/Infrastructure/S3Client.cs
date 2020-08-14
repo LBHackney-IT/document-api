@@ -2,6 +2,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using document_api.V1.Boundary;
+using document_api.V1.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace document_api.V1.Infrastructure
                     CannedACL = S3CannedACL.NoACL
                 };
 
+                uploadRequest.Metadata.Add("The Path", "is heavy");
+
                 using (var fileTransferUtility = new TransferUtility(_s3Client))
                 {
                     await fileTransferUtility.UploadAsync(uploadRequest);
@@ -56,6 +59,53 @@ namespace document_api.V1.Infrastructure
                 PreSignedUrl = response
             };
 
+        }
+
+        public async Task<GetFileResponse> DownloadFile(string bucketName, string fileName)
+        {
+            var response = new List<KeyValuePair<string, string>>();
+
+            try
+            {
+                var pathAndFileName = $"C:\\S3Test\\{fileName}";
+
+                var downloadRequest = new TransferUtilityDownloadRequest
+                {
+                    BucketName = bucketName,
+                    Key = fileName,
+                    FilePath = pathAndFileName
+                };
+
+                using (var transferUtility = new TransferUtility(_s3Client))
+                {
+       
+                    await transferUtility.DownloadAsync(downloadRequest);
+
+                    var metadataRequest = new GetObjectMetadataRequest
+                    {
+                        BucketName = bucketName,
+                        Key = fileName
+                    };
+
+                    var metadata = await _s3Client.GetObjectMetadataAsync(metadataRequest);
+
+                    foreach(string key in metadata.Metadata.Keys)
+                    {
+                        response.Add(new KeyValuePair<string,string>(key, metadata.Metadata[key]));
+                    }
+
+                    return new GetFileResponse
+                    {
+                        Metadata = response
+                    };
+                }
+
+               
+            }
+            catch(AmazonS3Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 

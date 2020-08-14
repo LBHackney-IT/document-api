@@ -10,6 +10,7 @@ namespace document_api.V1.Infrastructure
     public interface IS3Client
     {
         Task<AddFileResponse> UploadFiles(string bucketName, IList<IFormFile> formFiles);
+        Task<GetFileResponse> DownloadFile(string bucketName, string fileName);
     }
 
 }
