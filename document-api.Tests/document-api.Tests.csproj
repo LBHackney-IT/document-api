@@ -5,6 +5,20 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="V1\Domain\**" />
+    <Compile Remove="V1\Factories\**" />
+    <Compile Remove="V1\Infrastructure\**" />
+    <Content Remove="V1\Domain\**" />
+    <Content Remove="V1\Factories\**" />
+    <Content Remove="V1\Infrastructure\**" />
+    <EmbeddedResource Remove="V1\Domain\**" />
+    <EmbeddedResource Remove="V1\Factories\**" />
+    <EmbeddedResource Remove="V1\Infrastructure\**" />
+    <None Remove="V1\Domain\**" />
+    <None Remove="V1\Factories\**" />
+    <None Remove="V1\Infrastructure\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
@@ -21,11 +35,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\document-api\document-api.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="V1\Domain\" />
-    <Folder Include="V1\Factories\" />
-    <Folder Include="V1\Infrastructure\" />
   </ItemGroup>
 </Project>

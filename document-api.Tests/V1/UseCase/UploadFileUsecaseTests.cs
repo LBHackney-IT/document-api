@@ -7,6 +7,7 @@ using NUnit.Framework.Internal;
 using System.Threading.Tasks;
 using document_api.V1.Gateways;
 using document_api.Tests.V1.Helper;
+using System.Linq;
 
 namespace UnitTests.V1.UseCase
 { 
@@ -28,10 +29,7 @@ namespace UnitTests.V1.UseCase
         {
             //arrange
             var testBucket = "test";
-            var testFiles = new List<IFormFile>
-            {
-                new Mock<IFormFile>().Object
-            };
+            var testFiles = TestHelper.Generate_FileMock();
 
             //act
            await _uploadFileUsecase.Execute(testBucket, testFiles);
@@ -45,17 +43,14 @@ namespace UnitTests.V1.UseCase
         {
             //arrange
             var testBucket = "test";
-            var testFile = TestHelper.Generate_FileMock();
-            var testFiles = new List<IFormFile>
-            {
-                testFile
-            };
+            var testFiles = TestHelper.Generate_FileMock();
+        
 
             //act
             await _uploadFileUsecase.Execute(testBucket, testFiles);
 
             //assert
-            _mockGateway.Verify(x => x.UploadFiles(It.Is<string>(str => str == testBucket), It.Is<IList<IFormFile>>(f => f.Contains(testFile))));
+            _mockGateway.Verify(x => x.UploadFiles(It.Is<string>(str => str == testBucket), It.Is<IList<IFormFile>>(f => f.First().FileName == "test.pdf")));
         }
     }
    
