@@ -23,42 +23,49 @@ namespace document_api.V1.Infrastructure
         {
             var response = new List<string>();
 
-            foreach (var file in formFiles)
+            try
             {
-                var uploadRequest = new TransferUtilityUploadRequest
+
+                foreach (var file in formFiles)
                 {
-                    BucketName = bucketName,
-                    InputStream = file.OpenReadStream(),
-                    Key = file.FileName,
-                    CannedACL = S3CannedACL.NoACL
-                };
-
-                uploadRequest.Metadata.Add("The Path", "is heavy");
-
-                using (var fileTransferUtility = new TransferUtility(_s3Client))
-                {
-                    await fileTransferUtility.UploadAsync(uploadRequest);
-
-                    var urlRequest = new GetPreSignedUrlRequest
+                    var uploadRequest = new TransferUtilityUploadRequest
                     {
                         BucketName = bucketName,
+                        InputStream = file.OpenReadStream(),
                         Key = file.FileName,
-                        Expires = DateTime.Now.AddMinutes(10)
+                        CannedACL = S3CannedACL.NoACL
                     };
 
-                    var url = _s3Client.GetPreSignedURL(urlRequest);
+                    uploadRequest.Metadata.Add("test", "testing-metadata");
 
-                    response.Add(url);
+                    using (var fileTransferUtility = new TransferUtility(_s3Client))
+                    {
+                        await fileTransferUtility.UploadAsync(uploadRequest);
+
+                        var urlRequest = new GetPreSignedUrlRequest
+                        {
+                            BucketName = bucketName,
+                            Key = file.FileName,
+                            Expires = DateTime.Now.AddMinutes(10)
+                        };
+
+                        var url = _s3Client.GetPreSignedURL(urlRequest);
+
+                        response.Add(url);
+                    };
+
+
+                }
+
+                return new AddFileResponse
+                {
+                    PreSignedUrl = response
                 };
-
-
             }
-
-            return new AddFileResponse
+            catch (AmazonS3Exception ex)
             {
-                PreSignedUrl = response
-            };
-
+                throw ex;
+            }
         }
 
         public async Task<GetFileResponse> DownloadFile(string bucketName, string fileName)
