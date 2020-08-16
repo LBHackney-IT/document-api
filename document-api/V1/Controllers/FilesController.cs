@@ -38,14 +38,21 @@ namespace document_api.V1.Controllers
                 return BadRequest("The request doesn't contain any files to be uploaded.");
             }
 
-            var response =  await _uploadFile.Execute(bucketName, formFiles);
-
-            if (response == null)
+            try
             {
-                return BadRequest("Something went wrong with your request");
-            }
+                var response = await _uploadFile.Execute(bucketName, formFiles);
 
-            return CreatedAtAction("AddFiles", response);
+                return CreatedAtAction("AddFiles", response);
+            }
+            catch (AmazonS3Exception ex)
+            {
+                if (ex.ErrorCode == "NoSuchBucket")
+                {
+                    return NotFound(new ErrorsResponse(ex.Message));
+                }
+
+                return StatusCode(500, new ErrorsResponse(ex.Message));
+            }
         }
 
         [HttpGet]

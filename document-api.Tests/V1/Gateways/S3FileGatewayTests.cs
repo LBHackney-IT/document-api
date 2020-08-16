@@ -31,11 +31,7 @@ namespace UnitTests.V1.Gateways
         {
             //arrange
             var testBucket = "test";
-            var testFile = TestHelper.Generate_FileMock();
-            var testFiles = new List<IFormFile>
-            {
-                testFile
-            };
+            var testFiles = TestHelper.Generate_FileMock();
             var testUrlResponse = new List<string>
             {
                 "testURL"
@@ -54,11 +50,7 @@ namespace UnitTests.V1.Gateways
         public async Task Given_a_successful_request_when_DownloadFile_is_called_it_returns_a_successful_response_object()
         {
             //arrange
-            var request = new GetFileRequest
-            {
-                bucketName = "testbucket",
-                fileName = "Test.pdf"
-            };
+            var request = TestHelper.Generate_ValidGetRequest();
             var expectedResponse = new GetFileResponse();
             mockS3Client.Setup(x => x.DownloadFile(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(expectedResponse);
 

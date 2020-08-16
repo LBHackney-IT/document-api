@@ -2,7 +2,7 @@ using NUnit.Framework;
 using NUnit.Framework.Internal;
 using document_api.V1.Exceptions;
 
-namespace document_api.Tests.V1.Exceptions
+namespace UnitTests.V1.Exceptions
 {
     [TestFixture]
     public class ErrorsResponseTests

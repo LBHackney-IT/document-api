@@ -7,6 +7,16 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="V1\Domain\**" />
+      <Compile Remove="V1\Factories\**" />
+      <Content Remove="V1\Domain\**" />
+      <Content Remove="V1\Factories\**" />
+      <EmbeddedResource Remove="V1\Domain\**" />
+      <EmbeddedResource Remove="V1\Factories\**" />
+      <None Remove="V1\Domain\**" />
+      <None Remove="V1\Factories\**" />
+    </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.HealthChecks" Version="1.0.0" />
@@ -21,10 +31,5 @@
     <PackageReference Include="AWSSDK.S3" Version="3.3.111.18" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.101" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="V1\Domain\" />
-    <Folder Include="V1\Factories\" />
   </ItemGroup>
 </Project>
